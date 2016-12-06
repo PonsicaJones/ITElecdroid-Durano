@@ -1,0 +1,82 @@
+package com.example.gersonjones.studentlife;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Created by GersonJones on 30/11/2016.
+ */
+public class ListView2 extends Activity {
+    ListView lv;
+    ArrayList<Student> source;
+    MyAdapter adapter;
+    ArrayList<Student> list;
+    MyAdapter adapter2;
+    EditText txtSearch;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.listview2);
+
+        lv = (ListView) this.findViewById(R.id.listView2);
+        this.txtSearch = (EditText) this.findViewById(R.id.editText);
+        source = new ArrayList<Student>();
+        list = new ArrayList<Student>();
+
+
+        adapter = new MyAdapter(this,list);
+        this.lv.setAdapter(adapter);
+
+        source.add(new Student(R.drawable.img1,"Emilio F. Aguinaldo"," 1st Philippine President"));
+        source.add(new Student(R.drawable.img2,"Manuel Luis M. Quezon","2nd Philippine President"));
+        source.add(new Student(R.drawable.img3,"Jose P. Laurel","3rd Philippine President"));
+        source.add(new Student(R.drawable.img4,"Sergio Osmeña","4th Philippine President"));
+        source.add(new Student(R.drawable.img5,"Manuel A. Roxas","5th Philippine President"));
+        source.add(new Student(R.drawable.img6,"Elpidio P. Quirino","6th Philippine President"));
+        source.add(new Student(R.drawable.img7,"Ramon D. Magsaysay","7th Philippine President"));
+        source.add(new Student(R.drawable.img8,"Carlos P. Garcia","1st 8th President"));
+        source.add(new Student(R.drawable.img9,"Diosdado P. Macapagal","9th Philippine President"));
+        source.add(new Student(R.drawable.img10,"Ferdinand E. Marcos","10th Philippine President"));
+        source.add(new Student(R.drawable.img11,"Corazon C. Aquino","11th Philippine President"));
+        source.add(new Student(R.drawable.img12,"Fidel V. Ramos","12th Philippine President"));
+        source.add(new Student(R.drawable.img13,"Joseph E. Estrada","13th Philippine President"));
+        source.add(new Student(R.drawable.img14,"Gloria Macapagal- Arroyo","14th Philippine President"));
+        source.add(new Student(R.drawable.img15,"Benigno Simeon C. Aquino III","15th Philippine President"));
+        source.add(new Student(R.drawable.img16,"Rodrigo Duterte","16th Philippine President"));
+
+        this.txtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                list.clear();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                Pattern p  = Pattern.compile(charSequence.toString());
+                for(int k = 0; k < source.size(); k++){
+                    Matcher m = p.matcher(source.get(k).getName());
+                    if(m.find()){
+                        list.add(source.get(k));
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                list.clear();
+            }
+        });
+
+    }
+}
